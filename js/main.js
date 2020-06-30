@@ -70,28 +70,24 @@ var renderPosts = function (newPosts) {
 
 renderPosts(posts);
 
-////////// module3-task3////////////////////
-
-
 var makeCommentsHidden = function () {
   document.querySelector('.social__comment-count').classList.add('hidden');
   document.querySelector('.comments-loader').classList.add('hidden');
 };
 
-var makeBigPicture = function (photo) {
+var makeBigPicture = function () {
   var bigPicture = document.querySelector('.big-picture');
   bigPicture.classList.remove('hidden');
 
   bigPicture.querySelector('.big-picture__img ').src = posts[0].url;
-  bigPicture.querySelector('.likes-count').textContent = photos.likes;
-  bigPicture.querySelector('.comments-count').textContent = photos.comments.length;
-  bigPicture.querySelector('.social__caption').textContent = photos.description;
+  bigPicture.querySelector('.likes-count').textContent = posts.likes;
+  bigPicture.querySelector('.comments-count').textContent = posts.comments.length;
+  bigPicture.querySelector('.social__caption').textContent = posts.description;
 
   bigPicture.querySelector('.social__comments').appendChild(createComment());
   document.querySelector('body').classList.add('modal-open');
-  makeBlocksHidden();
+  makeCommentsHidden();
 };
-
 
 makeBigPicture();
 
