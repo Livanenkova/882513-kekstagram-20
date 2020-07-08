@@ -71,4 +71,58 @@ var renderPosts = function (newPosts) {
 
 renderPosts(posts);
 
+// var makeCommentsHidden = function () {
+//   document.querySelector('.social__comment-count').classList.add('hidden');
+//   document.querySelector('.comments-loader').classList.add('hidden');
+// };
 
+// var makeBigPicture = function (photo) {
+//   var bigPicture = document.querySelector('.big-picture');
+//   bigPicture.classList.remove('hidden');
+
+//   bigPicture.querySelector('.big-picture__img ').src = posts[0].url;
+//   bigPicture.querySelector('.likes-count').textContent = photos.likes;
+//   bigPicture.querySelector('.comments-count').textContent = photos.comments.length;
+//   bigPicture.querySelector('.social__caption').textContent = photos.description;
+
+//   bigPicture.querySelector('.social__comments').appendChild(createComment());
+//   document.querySelector('body').classList.add('modal-open');
+//   makeBlocksHidden();
+// };
+
+// makeBigPicture();
+
+var uploadFile = document.querySelector('#upload-file');
+var uploadCancel = document.querySelector('#upload-cancel');
+var bodyElement = document.querySelector('body');
+var sliderPin = document.querySelector('.effect-level__pin');
+var effectButton = document.querySelector('.effects__radio');
+
+ uploadFile.addEventListener('change', function () {
+    openPopup();
+  });
+
+
+var onPopupEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  bodyElement.classList.remove('modal-open');
+
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  bodyElement.classList.add('modal-open');
+
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+sliderPin.addEventListener('mousedown', function (event) {
+effectButton
+
+})
