@@ -93,15 +93,14 @@ renderPosts(posts);
 // makeBigPicture();
 
 var uploadFile = document.querySelector('#upload-file');
-var uploadCancel = document.querySelector('#upload-cancel');
+// var uploadCancel = document.querySelector('#upload-cancel');
 var bodyElement = document.querySelector('body');
 var sliderPin = document.querySelector('.effect-level__pin');
-var effectButton = document.querySelector('.effects__radio');
+// var effectButton = document.querySelector('.effects__radio');
 
- uploadFile.addEventListener('change', function () {
-    openPopup();
-  });
-
+uploadFile.addEventListener('change', function () {
+  openPopup();
+});
 
 var onPopupEscPress = function (evt) {
   if (evt.key === 'Escape') {
@@ -122,7 +121,7 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-sliderPin.addEventListener('mousedown', function (event) {
-effectButton
+sliderPin.addEventListener('mousedown', function () {
+  // effectButton;
 
-})
+});
