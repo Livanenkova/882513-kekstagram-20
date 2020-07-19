@@ -1,10 +1,10 @@
-'use strict'
+// 'use strict'
 
-(function () {
-window.data = {};
-window.data.x = 42;
-window.data.hello = function () {};
+// (function () {
+// window.data = {};
+// window.data.x = 42;
+// window.data.hello = function () {};
 
-})();
+// })();
 
-y = window.data.x;
+// y = window.data.x;

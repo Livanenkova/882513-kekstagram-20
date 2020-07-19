@@ -1,6 +1,5 @@
 'use strict';
 
-
 var USER_NAMES = ['Джон', 'Ежи', 'Иен', 'Чарльз', 'Батон', 'Макс', 'Лолита', 'Шанти', 'Комета', 'Моника'];
 
 var USER_MESSAGES = [
@@ -17,16 +16,13 @@ var MIN_SCALE_VALUE = 25;
 var MAX_SCALE_VALUE = 100;
 var SCALE_STEP = 25;
 
-///////  Функция создания рандомного числа
-
+// / Функция создания рандомного числа
 var getRandomValue = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
 };
 
-
-////// Функция генерации комментария  data.js
-
+// Функция генерации комментария  data.js
 var posts = [];
 var usersComments = [];
 
@@ -39,13 +35,13 @@ var createComment = function (number) {
       message: USER_MESSAGES[getRandomValue(0, number)],
       name: USER_NAMES[getRandomValue(0, number)]
     };
-     usersComments.push(comment);
+    usersComments.push(comment);
   }
-   return usersComments
+  return usersComments;
 };
 createComment(COMMENTS_NUMBER);
 
-////// Функция генерации массива фотографий пользователей data.js
+// Функция генерации массива фотографий пользователей data.js
 var POSTS_NUMBER = 25;
 
 var createPost = function (number) {
@@ -70,27 +66,26 @@ window.createNewPost = function (items) {
   element.querySelector('.picture__img').src = items.url;
   element.querySelector('.picture__comments').textContent = 1;
   element.querySelector('.picture__likes').textContent = items.likes;
-  element.addEventListener('click' , function(){
+  element.addEventListener('click', function () {
     makeBigPicture(items);
-  })
+  });
   return element;
 };
 
- // Функция отрисовки дом элементов в блок .pictures
+// Функция отрисовки дом элементов в блок .pictures
 
 var renderPosts = function (newPosts) {
   var fragment = document.createDocumentFragment();
   var postList = document.querySelector('.pictures');
-
-    newPosts.forEach(function (item) {
-    fragment.appendChild(createNewPost(item));
+  newPosts.forEach(function (item) {
+    fragment.appendChild(window.createNewPost(item));
     postList.appendChild(fragment);
   });
 };
 
 renderPosts(posts);
 
-////////Функция открытия модального окна с большой фотографией. preview.js
+//  Функция открытия модального окна с большой фотографией. preview.js
 
 var makeBigPicture = function (photo) {
   var bigPicture = document.querySelector('.big-picture');
@@ -100,20 +95,20 @@ var makeBigPicture = function (photo) {
   bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
   bigPicture.querySelector('.social__caption').textContent = photo.description;
 
-  var comments = createComment()
-  for (var i = 0; i < comments.length;i++) {
+  var comments = createComment();
+  for (var i = 0; i < comments.length; i++) {
     var li = document.createElement('li');
     var img = document.createElement('img');
     var p = document.createElement('p');
     li.classList.add('social__comment');
-     img.classList.add('social__picture');
-     p.classList.add('social__text');
-     img.src = comments[i].avatar;
-     p.innerText = comments[i].message;
-     li.appendChild(img);
-     li.appendChild(p);
+    img.classList.add('social__picture');
+    p.classList.add('social__text');
+    img.src = comments[i].avatar;
+    p.innerText = comments[i].message;
+    li.appendChild(img);
+    li.appendChild(p);
     bigPicture.querySelector('.social__comments').appendChild(li);
-    };
+  }
   document.querySelector('body').classList.add('modal-open');
   makeCommentsHidden();
 };
@@ -142,8 +137,7 @@ makeBigPicture(posts[0]);
 //   addThumbnailClickHandler(pictureImg[i], photos[i]);
 // }
 
-////////Функция закрытия модального окна с большой фотографией. preview.js
-var bigPicture = document.querySelector('.big-picture');
+// Функция закрытия модального окна с большой фотографией. preview.js
 var clouseBigCancel = document.querySelector('.big-picture__cancel');
 
 clouseBigCancel.addEventListener('click', function () {
@@ -155,19 +149,19 @@ var clouseBigPicture = function () {
   document.querySelector('.big-picture').classList.add('hidden');
 };
 
-////////Функция закрытия модального окна с большой фотографией при нажатии esс. preview.js
-var BigPictureEscPress = function (evt) {
+// Функция закрытия модального окна с большой фотографией при нажатии esс. preview.js
+var bigPictureEscPress = function (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     clouseBigPicture();
   }
 };
 
-document.addEventListener('keydown', function (evt){
-  BigPictureEscPress(evt);
-})
+document.addEventListener('keydown', function (evt) {
+  bigPictureEscPress(evt);
+});
 
-//// Блок загрузки фотографий form.js
+// Блок загрузки фотографий form.js
 
 var uploadFile = document.querySelector('#upload-file');
 var uploadCancel = document.querySelector('#upload-cancel');
@@ -181,32 +175,31 @@ var imgControlBig = imgUploadControl.querySelector('.scale__control--bigger');
 var imgcontrolSmall = imgUploadControl.querySelector('.scale__control--smaller');
 var imgControlValue = document.querySelector('.scale__control--value');
 
-///// Обработчик открытия окна загрузки фотографий form.js
+// Обработчик открытия окна загрузки фотографий form.js
 uploadFile.addEventListener('change', function () {
   openPopup();
 });
 
-/////// Обработчик закрытия окна загрузки фотографий form.js
+// Обработчик закрытия окна загрузки фотографий form.js
 uploadCancel.addEventListener('click', function () {
   closePopup();
 });
 
-
-//// Функция открытия окна загрузки фотографий form.js
+// Функция открытия окна загрузки фотографий form.js
 var openPopup = function () {
   bodyElement.classList.add('modal-open');
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
-////Функция закрытия окна загрузки фотографий при клике form.js
+// Функция закрытия окна загрузки фотографий при клике form.js
 var closePopup = function () {
   bodyElement.classList.remove('modal-open');
   document.querySelector('.img-upload__overlay').classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-//// Функция закрытия окна загрузки фотографий при клике form.js
+// Функция закрытия окна загрузки фотографий при клике form.js
 var onPopupEscPress = function (evt) {
   if (evt.key === 'Escape' && document.querySelector('.text__hashtags') !== document.activeElement && document.querySelector('.text__description') !== document.activeElement) {
     evt.preventDefault();
@@ -214,9 +207,7 @@ var onPopupEscPress = function (evt) {
   }
 };
 
-
-
-//// Обработчик уменьшения фотографии в окне загрузки фотографии form.js
+// Обработчик уменьшения фотографии в окне загрузки фотографии form.js
 imgcontrolSmall.addEventListener('click', function () {
   var scaleValue = Number(imgControlValue.value.slice(0, -1));
   scaleValue -= SCALE_STEP;
@@ -228,8 +219,7 @@ imgcontrolSmall.addEventListener('click', function () {
   changeImgScale(scaleValue);
 });
 
-
-////// Обработчик увеличения фотографии в окне загрузки фотографии form.js
+// Обработчик увеличения фотографии в окне загрузки фотографии form.js
 imgControlBig.addEventListener('click', function () {
   var scaleValue = Number(imgControlValue.value.slice(0, -1));
   scaleValue += SCALE_STEP;
@@ -241,14 +231,14 @@ imgControlBig.addEventListener('click', function () {
   changeImgScale(scaleValue);
 });
 
-//// Функция изменения масштаба фотографии в окне загрузки фотографии form.js
+// Функция изменения масштаба фотографии в окне загрузки фотографии form.js
 
 function changeImgScale(value) {
   imgControlValue.value = value + '%';
   imgUploadPreview.style.transform = 'scale(' + (value / 100) + ')';
 }
 
-//// Функция наложения эффекта на изображение form.js
+// Функция наложения эффекта на изображение form.js
 
 function onFilterChange(event) {
   imgUploadPreview.className = '';
@@ -262,7 +252,7 @@ function onFilterChange(event) {
   }
 }
 
-//// Обработчик движения слайдера form.js
+// Обработчик движения слайдера form.js
 
 line.addEventListener('mousedown', function () {
 
@@ -301,7 +291,7 @@ var effectLevelSlider = document.querySelector('.img-upload__effect-level');
 // }
 
 
-//////////////валидация формы form.js
+// валидация формы form.js
 var MIN_HASHTAG_LENGTH = 2;
 var MAX_HASHTAG_LENGTH = 20;
 var MAX_HASHTAG_NUMBER = 5;
@@ -354,6 +344,6 @@ hashtagInput.addEventListener('input', function () {
   }
 });
 
-hashtagInput.addEventListener('focus', function(){
+hashtagInput.addEventListener('focus', function () {
 
 });
