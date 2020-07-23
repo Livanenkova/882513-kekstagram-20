@@ -14,6 +14,7 @@
   var imgControlValue = document.querySelector('.scale__control--value');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 
+
   // Обработчик открытия окна загрузки фотографий form.js
   uploadFile.addEventListener('change', function () {
     openPopup();
@@ -28,6 +29,7 @@
   var openPopup = function () {
     window.utils.addClass(window.main.bodyElement, 'modal-open');
     window.utils.removeClass(imgUploadOverlay, 'hidden');
+
     document.addEventListener('keydown', onPopupEscPress);
   };
 
@@ -35,6 +37,7 @@
   var closePopup = function () {
     window.utils.removeClass(window.main.bodyElement, 'modal-open');
     window.utils.addClass(imgUploadOverlay, 'hidden');
+
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
@@ -94,13 +97,14 @@
       window.utils.addClass(effectLevelSlider, 'hidden');
     } else {
       window.utils.removeClass(effectLevelSlider, 'hidden');
+
     }
   }
 
   // Обработчик движения слайдера form.js
 
-  line.addEventListener('mousedown', function (evt) {
 
+  line.addEventListener('mousedown', function (evt) {
     var offSet = sliderPin.offsetLeft;
     var lineWidth = line.offsetWidth;
     var effectValue = Math.round(offSet * 100 / lineWidth);
