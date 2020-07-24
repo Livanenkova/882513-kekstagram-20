@@ -27,7 +27,9 @@
     });
   };
 
-  renderPosts(window.data.posts);
+  window.gallery = {
+    renderPosts: renderPosts
+  };
 
 })();
 

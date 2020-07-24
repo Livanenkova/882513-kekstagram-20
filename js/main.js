@@ -6,10 +6,20 @@
 
   // makeBigPicture(window.posts[0]);
 
-  window.main = {
-    bodyElement: bodyElement
+  var URL = 'https://javascript.pages.academy/kekstagram/data';
+
+  var onLoad = function (images) {
+    window.gallery.renderPosts(images);
+  };
+
+  var onError = function () {
 
   };
 
-})();
+  window.backend.load(URL, onLoad, onError);
 
+  window.main = {
+    bodyElement: bodyElement
+  };
+
+})();
