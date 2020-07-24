@@ -1,11 +1,15 @@
 'use strict';
 
 (function () {
+
+  var socialCommentCount = document.querySelector('.social__comment-count');
+  var commentsLoader = document.querySelector('.comments-loader');
+  var bigPicture = document.querySelector('.big-picture');
   // Функция открытия модального окна с большой фотографией. preview.js
 
   var makeBigPicture = function (photo) {
-    var bigPicture = document.querySelector('.big-picture');
-    bigPicture.classList.remove('hidden');
+
+    window.utils.removeClass(bigPicture, 'hidden');
     bigPicture.querySelector('.big-picture__img img').src = photo.url;
     bigPicture.querySelector('.likes-count').textContent = photo.likes;
     bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
@@ -16,23 +20,23 @@
       var li = document.createElement('li');
       var img = document.createElement('img');
       var p = document.createElement('p');
-      li.classList.add('social__comment');
-      img.classList.add('social__picture');
-      p.classList.add('social__text');
+      window.utils.addClass(li, 'social__comment');
+      window.utils.addClass(img, 'social__picture');
+      window.utils.addClass(p, 'social__text');
       img.src = comments[i].avatar;
       p.innerText = comments[i].message;
       li.appendChild(img);
       li.appendChild(p);
       bigPicture.querySelector('.social__comments').appendChild(li);
     }
-    document.querySelector('body').classList.add('modal-open');
+    window.utils.addClass(window.main.bodyElement, 'modal-open');
     makeCommentsHidden();
   };
 
   // Функция скрытия блоков комментариев preview.js
   var makeCommentsHidden = function () {
-    document.querySelector('.social__comment-count').classList.add('hidden');
-    document.querySelector('.comments-loader').classList.add('hidden');
+    window.utils.addClass(socialCommentCount, 'hidden');
+    window.utils.addClass(commentsLoader, 'hidden');
   };
 
   // Функция закрытия модального окна с большой фотографией. preview.js
@@ -43,9 +47,9 @@
   });
 
   var clouseBigPicture = function () {
-    var bodyElement = document.querySelector('body');
-    bodyElement.classList.remove('modal-open');
-    document.querySelector('.big-picture').classList.add('hidden');
+    window.utils.removeClass(window.main.bodyElement, 'modal-open');
+    window.utils.removeClass(window.main.bodyElement, 'hidden');
+    window.utils.addClass(bigPicture, 'hidden');
   };
 
   // Функция закрытия модального окна с большой фотографией при нажатии esс. preview.js
@@ -61,7 +65,9 @@
   });
 
   window.preview = {
-    makeBigPicture: makeBigPicture
+
+    makeBigPicture: makeBigPicture,
+    bigPicture: bigPicture
   };
 
 })();
