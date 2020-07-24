@@ -178,5 +178,3 @@
   line.addEventListener('mousemove', onEffectLevelChange);
 
 })();
-
-
