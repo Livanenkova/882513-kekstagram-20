@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var load = function (url, onSuccess, onError) {
+  var makeXHR = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -23,12 +23,24 @@
 
     xhr.timeout = 10000; // 10s
 
-    xhr.open('GET', url);
-    xhr.send();
+    return xhr;
   };
 
+  function upload(url, data, onSuccess, onError) {
+    var xhr = makeXHR(onSuccess, onError);
+    xhr.open('POST', url);
+    xhr.send(data);
+  }
+
+  function load(url, onSuccess, onError) {
+    var xhr = makeXHR(onSuccess, onError);
+    xhr.open('GET', url);
+    xhr.send();
+  }
+
   window.backend = {
-    load: load
+    load: load,
+    upload: upload
   };
 
 })();

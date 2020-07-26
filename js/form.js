@@ -10,6 +10,7 @@
   var imgControlSmall = imgUploadControl.querySelector('.scale__control--smaller');
   var imgControlValue = document.querySelector('.scale__control--value');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+  var imgUploadForm = document.querySelector('.img-upload__form');
 
   // Обработчик открытия окна загрузки фотографий form.js
   uploadFile.addEventListener('change', function () {
@@ -30,6 +31,7 @@
 
   // Функция закрытия окна загрузки фотографий при клике form.js
   var closePopup = function () {
+    imgUploadForm.reset();
     window.utils.removeClass(window.main.bodyElement, 'modal-open');
     window.utils.addClass(imgUploadOverlay, 'hidden');
     document.removeEventListener('keydown', onPopupEscPress);
@@ -79,8 +81,24 @@
     imgUploadPreview.style.transform = 'scale(' + (value / 100) + ')';
   }
 
-  window.form = {
-    imgUploadPreview: imgUploadPreview
-  };
+  imgUploadForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    window.backend.upload('https://javascript.pages.academy/kekstagram', new FormData(imgUploadForm), uploadSuccess, uploadError);
+  });
 
+  function uploadSuccess() {
+    imgUploadForm.reset();
+    closePopup();
+    window.message.renderMessage('', 'success');
+  }
+
+  function uploadError(error) {
+    closePopup();
+    window.message.renderMessage(error, 'error');
+  }
+
+  window.form = {
+    imgUploadPreview: imgUploadPreview,
+    imgUploadForm: imgUploadForm
+  };
 })();

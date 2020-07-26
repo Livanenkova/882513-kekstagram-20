@@ -1,16 +1,18 @@
 'use strict';
 (function () {
-  var sliderPin = document.querySelector('.effect-level__pin');
-  var effect = document.querySelector('.effect-level__value');
-  var line = document.querySelector('.effect-level__line');
+  var effectLevelPin = document.querySelector('.effect-level__pin');
+  var effectLevelDepth = effectLevelPin.querySelector('.effect-level__depth');
+  var effectLevelValue = document.querySelector('.effect-level__value');
+  var effectLevelLine = document.querySelector('.effect-level__line');
+  var effectLevelSlider = document.querySelector('.img-upload__effect-level');
 
-  line.addEventListener('mousedown', function (evt) {
+  effectLevelLine.addEventListener('mousedown', function (evt) {
 
-    var offSet = sliderPin.offsetLeft;
-    var lineWidth = line.offsetWidth;
+    var offSet = effectLevelPin.offsetLeft;
+    var lineWidth = effectLevelLine.offsetWidth;
     var effectValue = Math.round(offSet * 100 / lineWidth);
-    effect.value = effectValue;
-    var effectDepth = line.querySelector('.effect-level__depth');
+    effectLevelValue.value = effectValue;
+    // var effectDepth = effectLevelLine.querySelector('.effect-level__depth');
 
     var startCoords = {
       x: evt.clientX,
@@ -26,16 +28,16 @@
       startCoords = {
         x: moveEvt.clientX,
       };
-
-      var newX = sliderPin.offsetLeft - shift.x;
+      // вынести в отдельную функцию и вызывать со знаечением 100
+      var newX = effectLevelPin.offsetLeft - shift.x;
 
       if (newX >= 0 && newX <= lineWidth) {
 
-        // var offSet = sliderPin.offsetLeft;
-        // var effectValue = Math.round(offSet * 100 / lineWidth);
-        effect.value = effectValue;
-        sliderPin.style.left = (newX) + 'px';
-        effectDepth.style.width = (newX * 100 / lineWidth) + '%';
+        var levelPin = effectLevelPin.offsetLeft;
+        var effect = Math.round(levelPin * 100 / lineWidth);
+        effectLevelLine.value = effect;
+        effectLevelPin.style.left = (newX) + 'px';
+        effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
       }
     };
 
@@ -54,26 +56,23 @@
   var imgEffectsContainer = document.querySelector('.img-upload__effects');
   imgEffectsContainer.addEventListener('change', onFilterChange);
 
-  var effectLevelSlider = document.querySelector('.img-upload__effect-level');
-  var effectLevelInput = effectLevelSlider.querySelector('.effect-level__value');
-
   function onEffectLevelChange() {
 
     switch (window.form.imgUploadPreview.className) {
       case 'effects__preview--chrome':
-        window.form.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelInput.value / 100) + ')';
+        window.form.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';
         break;
       case 'effects__preview--sepia':
-        window.form.imgUploadPreview.style.filter = 'sepia(' + (effectLevelInput.value / 100) + ')';
+        window.form.imgUploadPreview.style.filter = 'sepia(' + (effectLevelValue.value / 100) + ')';
         break;
       case 'effects__preview--marvin':
-        window.form.imgUploadPreview.style.filter = 'invert(' + effectLevelInput.value + '%)';
+        window.form.imgUploadPreview.style.filter = 'invert(' + effectLevelValue.value + '%)';
         break;
       case 'effects__preview--phobos':
-        window.form.imgUploadPreview.style.filter = 'blur(' + (effectLevelInput.value * 3 / 100) + 'px)';
+        window.form.imgUploadPreview.style.filter = 'blur(' + (effectLevelValue.value * 3 / 100) + 'px)';
         break;
       case 'effects__preview--heat':
-        window.form.imgUploadPreview.style.filter = 'brightness(' + (effectLevelInput.value * 3 / 100 + 1) + ')';
+        window.form.imgUploadPreview.style.filter = 'brightness(' + (effectLevelValue.value * 3 / 100 + 1) + ')';
         break;
       default:
         window.form.imgUploadPreview.style.filter = null;
@@ -93,6 +92,6 @@
     }
   }
 
-  line.addEventListener('mousemove', onEffectLevelChange);
+  effectLevelLine.addEventListener('mousemove', onEffectLevelChange);
 
 })();
