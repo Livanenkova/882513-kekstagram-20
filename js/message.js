@@ -12,9 +12,8 @@
     var template = document.querySelector('#success').content.querySelector('.success');
     var element = template.cloneNode(true);
     return element;
+    successMessageContainer.addEventListener('click', onDocumentClick);
   };
-
-  successMessageContainer.addEventListener('click', onDocumentClick);
 
   var renderMessage = function (newMessage, type) {
     var postMessage = document.querySelector('main');
