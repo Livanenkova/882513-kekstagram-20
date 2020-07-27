@@ -1,18 +1,15 @@
 'use strict';
 (function () {
-  var successMessage = document.querySelector('.success');
-  var errorMessage = document.querySelector('.error');
-  // var successButton = document.querySelector('.success__button');
-  // var errorButton = document.querySelector('.error__button');
-  // var main = document.querySelector('main');
-  // var templateSuccess = document.querySelector('#success').content.querySelector('.success');
-  var successMessageContainer = document.getElementById('#success');
+
+  var main = document.querySelector('main');
 
   var createSuccessMessage = function () {
     var template = document.querySelector('#success').content.querySelector('.success');
     var element = template.cloneNode(true);
+
+    document.addEventListener('click', clouseSuccessMessage);
+    document.addEventListener('keydown', successMessageEscPress);
     return element;
-    successMessageContainer.addEventListener('click', onDocumentClick);
   };
 
   var renderMessage = function (newMessage, type) {
@@ -24,19 +21,6 @@
       messageElement = createSuccessMessage(newMessage);
     }
     postMessage.appendChild(messageElement);
-
-    document.addEventListener('keydown', successMessageEscPress);
-  };
-
-  var onDocumentClick = function () {
-    clouseSuccessMessage();
-  };
-
-  var clouseSuccessMessage = function () {
-    window.utils.addClass(successMessage, 'hidden');
-
-    document.removeEventListener('keydown', successMessageEscPress);
-    document.removeEventListener('click', clouseSuccessMessage);
   };
 
   var successMessageEscPress = function (evt) {
@@ -46,17 +30,28 @@
     }
   };
 
+  var clouseSuccessMessage = function () {
+    var successMessage = document.querySelector('.success');
+
+    document.removeEventListener('click', clouseSuccessMessage);
+    document.removeEventListener('keydown', successMessageEscPress);
+
+    main.removeChild(successMessage);
+  };
+
   var createErrorMessage = function () {
     var template = document.querySelector('#error').content.querySelector('.error');
     var element = template.cloneNode(true);
+    document.addEventListener('click', clouseErrorMessage);
+    document.addEventListener('keydown', errorMessageEscPress);
     return element;
   };
 
   var clouseErrorMessage = function () {
-    window.utils.addClass(errorMessage, 'hidden');
-
+    var errorMessage = document.querySelector('.error');
     document.removeEventListener('keydown', errorMessageEscPress);
     document.removeEventListener('click', clouseErrorMessage);
+    main.removeChild(errorMessage);
   };
 
   var errorMessageEscPress = function (evt) {
@@ -65,7 +60,6 @@
       clouseErrorMessage();
     }
   };
-
 
   window.message = {
     renderMessage: renderMessage
