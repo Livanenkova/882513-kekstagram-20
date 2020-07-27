@@ -2,7 +2,7 @@
 
 (function () {
 
-  // Функция создания дом элемента, соттветствующая фотографиям, заполненным данными из массива
+  // Функция создания дом элемента, соoтветствующая фотографиям, заполненным данными из массива
 
   var createNewPost = function (items) {
     var template = document.querySelector('#picture').content.querySelector('a');
@@ -26,6 +26,15 @@
       postList.appendChild(fragment);
     });
   };
+
+  // Функция показа фильтра
+
+  var showFilter = function () {
+    var imgFilters = document.querySelector('.img-filters');
+    window.utils.removeClass(imgFilters,'img-filters--inactive');
+  };
+
+  showFilter();
 
   window.gallery = {
     renderPosts: renderPosts
