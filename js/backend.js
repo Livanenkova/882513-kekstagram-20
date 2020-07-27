@@ -1,6 +1,8 @@
 'use strict';
 (function () {
+
   var makeXHR = function (onSuccess, onError) {
+
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -23,6 +25,7 @@
 
     xhr.timeout = 10000; // 10s
 
+
     return xhr;
   };
 
@@ -41,6 +44,7 @@
   window.backend = {
     load: load,
     upload: upload
+
   };
 
 })();

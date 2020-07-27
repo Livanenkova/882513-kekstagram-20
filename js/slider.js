@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = effectLevelPin.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
@@ -13,6 +14,7 @@
     var effectValue = Math.round(offSet * 100 / lineWidth);
     effectLevelValue.value = effectValue;
     // var effectDepth = effectLevelLine.querySelector('.effect-level__depth');
+
 
     var startCoords = {
       x: evt.clientX,
@@ -28,6 +30,7 @@
       startCoords = {
         x: moveEvt.clientX,
       };
+
       // вынести в отдельную функцию и вызывать со знаечением 100
       var newX = effectLevelPin.offsetLeft - shift.x;
 
@@ -38,6 +41,7 @@
         effectLevelLine.value = effect;
         effectLevelPin.style.left = (newX) + 'px';
         effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
+
       }
     };
 
@@ -56,10 +60,12 @@
   var imgEffectsContainer = document.querySelector('.img-upload__effects');
   imgEffectsContainer.addEventListener('change', onFilterChange);
 
+
   function onEffectLevelChange() {
 
     switch (window.form.imgUploadPreview.className) {
       case 'effects__preview--chrome':
+
         window.form.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';
         break;
       case 'effects__preview--sepia':
@@ -73,6 +79,7 @@
         break;
       case 'effects__preview--heat':
         window.form.imgUploadPreview.style.filter = 'brightness(' + (effectLevelValue.value * 3 / 100 + 1) + ')';
+
         break;
       default:
         window.form.imgUploadPreview.style.filter = null;
@@ -93,5 +100,6 @@
   }
 
   effectLevelLine.addEventListener('mousemove', onEffectLevelChange);
+
 
 })();
