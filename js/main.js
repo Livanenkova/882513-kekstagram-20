@@ -8,8 +8,11 @@
 
   var URL = 'https://javascript.pages.academy/kekstagram/data';
 
-  var onLoad = function (images) {
-    window.gallery.renderPosts(images);
+  var pictures = [];
+
+  var onLoad = function (data) {
+    pictures = data;
+    window.gallery.renderPosts(pictures);
   };
 
   var onError = function () {

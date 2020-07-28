@@ -27,14 +27,14 @@
     });
   };
 
-  // Функция показа фильтра
+  // // Функция показа фильтра
 
-  var showFilter = function () {
-    var imgFilters = document.querySelector('.img-filters');
-    window.utils.removeClass(imgFilters,'img-filters--inactive');
-  };
+  // var showFilter = function () {
+  //   var imgFilters = document.querySelector('.img-filters');
+  //   window.utils.removeClass(imgFilters,'img-filters--inactive');
+  // };
 
-  showFilter();
+  // showFilter();
 
   window.gallery = {
     renderPosts: renderPosts
