@@ -1,35 +1,68 @@
 'use strict';
 
 (function () {
-  // var PICTURE_COUNT = 10;
-  // var filter = document.querySelector('.img-filters');
-  // var filterButton = filter.querySelectorAll('.img-filters__button');
-  // var filterDefault = filter.querySelector('#filter-default');
-  // var filterRandom = filter.querySelector('#filter-random');
-  // var filterDiscussed = filter.querySelector('#filter-discussed');
 
-  // Функция показа фильтра
-  var showFilter = function () {
-    var imgFilters = document.querySelector('.img-filters');
-    window.utils.removeClass(imgFilters, 'img-filters--inactive');
+  var PHOTO_COUNT = 10;
+
+  var pictures = document.querySelector('.pictures');
+  var imgFiltersButton = document.querySelector('.img-filters__form');
+
+  // Обработчик клика по кнопкам переключения фильтра
+  imgFiltersButton.addEventListener('click', window.debounce.debounce(function (event) {
+    updatePhotos(event.target.id);
+  }));
+
+  var updatePhotos = function (buttonId) {
+    clear();
+    var photos = [];
+    switch (buttonId) {
+      case 'filter-random':
+        photos = makeRandomPhoto();
+        break;
+      case 'filter-discussed':
+        photos = makeDiscussedPhoto();
+        break;
+      case 'filter-default':
+        photos = window.main.pictures;
+        break;
+      default:
+        photos = window.main.pictures;
+    }
+
+    window.gallery.renderPosts(photos);
   };
 
-  showFilter();
-  // Обработчики изменения сортировки
+  var clear = function () {
+    var picturesElement = Array.from(pictures.querySelectorAll('.picture'));
+    picturesElement.forEach(function (elem) {
+      elem.parentNode.removeChild(elem);
+    });
+  };
 
-  // var pictures = [];
+  // Функция сортировки  10 случайных, не повторяющихся фотографий.
+  var makeRandomPhoto = function () {
+    var photos = window.main.pictures;
+    var photoRamdom = [];
+    while (photoRamdom.length < PHOTO_COUNT) {
+      var photoNumber = window.utils.getRandomValue(0, photos.length - 1);
+      photoRamdom.push(photos[photoNumber]);
+    }
+    return photoRamdom;
+  };
 
-  // var filterDefault = function () {
-
-  // };
-
-  // var filterRandom = function () {
-
-  // };
-
-  // var filterDiscussed = function () {
-
-  // };
-
+  // Функция сортировки фотографии, отсортированных в порядке убывания количества комментариев.
+  var makeDiscussedPhoto = function () {
+    var photos = window.main.pictures.slice();
+    var PhotoDiscussed = photos.sort(function (first, second) {
+      if (first.comments.length < second.comments.length) {
+        return 1;
+      } else if (first.comments.length > second.comments.length) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    return PhotoDiscussed;
+  };
 
 })();

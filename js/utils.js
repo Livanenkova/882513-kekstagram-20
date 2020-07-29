@@ -10,9 +10,15 @@
     item.classList.remove(className);
   }
 
+  var getRandomValue = function (min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1);
+    return Math.round(rand);
+  };
+
   window.utils = {
     addClass: addClass,
-    removeClass: removeClass
+    removeClass: removeClass,
+    getRandomValue: getRandomValue
   };
 
 })();

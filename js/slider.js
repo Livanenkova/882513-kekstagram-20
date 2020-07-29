@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var effectLevelPin = document.querySelector('.effect-level__pin');
-  var effectLevelDepth = effectLevelPin.querySelector('.effect-level__depth');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelLine = document.querySelector('.effect-level__line');
   var effectLevelSlider = document.querySelector('.img-upload__effect-level');
@@ -12,7 +12,6 @@
     var lineWidth = effectLevelLine.offsetWidth;
     var effectValue = Math.round(offSet * 100 / lineWidth);
     effectLevelValue.value = effectValue;
-    // var effectDepth = effectLevelLine.querySelector('.effect-level__depth');
 
     var startCoords = {
       x: evt.clientX,
@@ -28,17 +27,12 @@
       startCoords = {
         x: moveEvt.clientX,
       };
-      // вынести в отдельную функцию и вызывать со знаечением 100
+      var levelPin = effectLevelPin.offsetLeft;
+      var linesWidth = effectLevelLine.offsetWidth;
       var newX = effectLevelPin.offsetLeft - shift.x;
+      var effect = Math.round(levelPin * 100 / linesWidth);
 
-      if (newX >= 0 && newX <= lineWidth) {
-
-        var levelPin = effectLevelPin.offsetLeft;
-        var effect = Math.round(levelPin * 100 / lineWidth);
-        effectLevelLine.value = effect;
-        effectLevelPin.style.left = (newX) + 'px';
-        effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
-      }
+      movePin(newX, effect);
     };
 
     var onMouseUp = function (upEvt) {
@@ -52,12 +46,20 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  // Обработчик движения слайдера form.js
+  var movePin = function (newX, effect) {
+    var lineWidth = effectLevelLine.offsetWidth;
+    if (newX >= 0 && newX <= lineWidth) {
+      effectLevelLine.value = effect;
+      effectLevelPin.style.left = (newX) + 'px';
+      effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
+    }
+  };
+
+  // Обработчик движения слайдера
   var imgEffectsContainer = document.querySelector('.img-upload__effects');
   imgEffectsContainer.addEventListener('change', onFilterChange);
 
   function onEffectLevelChange() {
-
     switch (window.form.imgUploadPreview.className) {
       case 'effects__preview--chrome':
         window.form.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';
@@ -82,6 +84,7 @@
   // Функция наложения эффекта на изображение form.js
 
   function onFilterChange(event) {
+    movePin(450, 100);
     window.form.imgUploadPreview.className = '';
     window.form.imgUploadPreview.style.filter = null;
     window.utils.addClass(window.form.imgUploadPreview, 'effects__preview--' + event.target.value);
@@ -93,5 +96,4 @@
   }
 
   effectLevelLine.addEventListener('mousemove', onEffectLevelChange);
-
 })();

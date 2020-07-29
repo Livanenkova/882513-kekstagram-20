@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  // Блок загрузки фотографий form.js
+
   var uploadFile = document.querySelector('#upload-file');
   var uploadCancel = document.querySelector('#upload-cancel');
   var imgUploadPreview = document.querySelector('.img-upload__preview img');
@@ -11,6 +11,9 @@
   var imgControlValue = document.querySelector('.scale__control--value');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgUploadForm = document.querySelector('.img-upload__form');
+  var MIN_SCALE_VALUE = 25;
+  var MAX_SCALE_VALUE = 100;
+  var SCALE_STEP = 25;
 
   // Обработчик открытия окна загрузки фотографий form.js
   uploadFile.addEventListener('change', function () {
@@ -34,6 +37,7 @@
     imgUploadForm.reset();
     window.utils.removeClass(window.main.bodyElement, 'modal-open');
     window.utils.addClass(imgUploadOverlay, 'hidden');
+    document.removeEventListener('click', onPopupEscPress);
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
@@ -46,10 +50,6 @@
   };
 
   // Обработчик уменьшения фотографии в окне загрузки фотографии form.js
-
-  var MIN_SCALE_VALUE = 25;
-  var MAX_SCALE_VALUE = 100;
-  var SCALE_STEP = 25;
 
   imgControlSmall.addEventListener('click', function () {
     var scaleValue = Number(imgControlValue.value.slice(0, -1));
@@ -101,4 +101,5 @@
     imgUploadPreview: imgUploadPreview,
     imgUploadForm: imgUploadForm
   };
+
 })();

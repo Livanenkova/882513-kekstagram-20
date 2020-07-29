@@ -25,19 +25,18 @@
       fragment.appendChild(createNewPost(item));
       postList.appendChild(fragment);
     });
+    return newPosts;
   };
 
-  // // Функция показа фильтра
-
-  // var showFilter = function () {
-  //   var imgFilters = document.querySelector('.img-filters');
-  //   window.utils.removeClass(imgFilters,'img-filters--inactive');
-  // };
-
-  // showFilter();
+  // Функция показа фильтра
+  var showFilter = function () {
+    var imgFilters = document.querySelector('.img-filters');
+    window.utils.removeClass(imgFilters, 'img-filters--inactive');
+  };
 
   window.gallery = {
-    renderPosts: renderPosts
+    renderPosts: renderPosts,
+    showFilter: showFilter
   };
 
 })();

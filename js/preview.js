@@ -2,9 +2,10 @@
 
 (function () {
 
-  var socialCommentCount = document.querySelector('.social__comment-count');
   var commentsLoader = document.querySelector('.comments-loader');
   var bigPicture = document.querySelector('.big-picture');
+  var COMMENTS_COUNT = 5;
+
   // Функция открытия модального окна с большой фотографией. preview.js
 
   var makeBigPicture = function (photo) {
@@ -14,9 +15,18 @@
     bigPicture.querySelector('.likes-count').textContent = photo.likes;
     bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
     bigPicture.querySelector('.social__caption').textContent = photo.description;
+    var moreCommentsHandler = getComments(photo.comments);
+    moreCommentsHandler();
+    window.utils.addClass(window.main.bodyElement, 'modal-open');
+    // makeCommentsHidden();
+    commentsLoader.addEventListener('click', function () {
+      moreCommentsHandler();
+    });
+  };
 
-    var comments = window.data.createComment();
-    for (var i = 0; i < comments.length; i++) {
+  var renderComment = function (comments, start, end) {
+
+    for (var i = start; i < end; i++) {
       var li = document.createElement('li');
       var img = document.createElement('img');
       var p = document.createElement('p');
@@ -29,14 +39,23 @@
       li.appendChild(p);
       bigPicture.querySelector('.social__comments').appendChild(li);
     }
-    window.utils.addClass(window.main.bodyElement, 'modal-open');
-    makeCommentsHidden();
   };
 
-  // Функция скрытия блоков комментариев preview.js
-  var makeCommentsHidden = function () {
-    window.utils.addClass(socialCommentCount, 'hidden');
-    window.utils.addClass(commentsLoader, 'hidden');
+  var getComments = function (comments) {
+    bigPicture.querySelector('.social__comments').textContent = '';
+    var start = 0;
+    var end = comments.length > COMMENTS_COUNT ? COMMENTS_COUNT : comments.length;
+    return function () {
+      renderComment(comments, start, end);
+
+      if (end === comments.length) {
+        window.utils.addClass(commentsLoader, 'hidden');
+      } else {
+        window.utils.removeClass(commentsLoader, 'hidden');
+      }
+      start += comments.length > (COMMENTS_COUNT + start) ? COMMENTS_COUNT : comments.length - start;
+      end += comments.length > (COMMENTS_COUNT + end) ? COMMENTS_COUNT : comments.length - end;
+    };
   };
 
   // Функция закрытия модального окна с большой фотографией. preview.js
@@ -67,7 +86,8 @@
   window.preview = {
 
     makeBigPicture: makeBigPicture,
-    bigPicture: bigPicture
+    bigPicture: bigPicture,
+    renderComment: renderComment
   };
 
 })();
