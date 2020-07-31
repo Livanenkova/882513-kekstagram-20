@@ -1,13 +1,11 @@
 'use strict';
 
 (function () {
+  var URL = 'https://javascript.pages.academy/kekstagram/data';
 
   var bodyElement = document.querySelector('body');
 
-  var URL = 'https://javascript.pages.academy/kekstagram/data';
-
   var pictures = [];
-
 
   var onLoad = function (data) {
     window.gallery.renderPosts(data);

@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+
+  var TIMEOUT_IN_MS = 10000;
+
   var makeXHR = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
@@ -21,7 +24,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000; // 10s
+    xhr.timeout = TIMEOUT_IN_MS;
 
     return xhr;
   };

@@ -7,6 +7,7 @@
   var MAX_HASHTAG_LENGTH = 20;
   var MAX_HASHTAG_NUMBER = 5;
   var MAX_DESCRIPTION_TEXT_LENGTH = 140;
+
   var hashtagSymbolsRegexp = /#?[а-яa-z0-9]+/i;
   var hashtagInput = document.querySelector('.text__hashtags');
   var descriptionText = document.querySelector('.text__description');

@@ -2,11 +2,12 @@
 
 (function () {
 
+  var COMMENTS_COUNT = 5;
   var commentsLoader = document.querySelector('.comments-loader');
   var bigPicture = document.querySelector('.big-picture');
-  var COMMENTS_COUNT = 5;
+  var viewCommentsCount = document.querySelector('.view__comments-count');
 
-  // Функция открытия модального окна с большой фотографией. preview.js
+  // Функция открытия модального окна с большой фотографией.
 
   var makeBigPicture = function (photo) {
 
@@ -18,14 +19,13 @@
     var moreCommentsHandler = getComments(photo.comments);
     moreCommentsHandler();
     window.utils.addClass(window.main.bodyElement, 'modal-open');
-    // makeCommentsHidden();
     commentsLoader.addEventListener('click', function () {
       moreCommentsHandler();
     });
   };
 
   var renderComment = function (comments, start, end) {
-
+    viewCommentsCount.textContent = end;
     for (var i = start; i < end; i++) {
       var li = document.createElement('li');
       var img = document.createElement('img');
@@ -58,7 +58,7 @@
     };
   };
 
-  // Функция закрытия модального окна с большой фотографией. preview.js
+  // Функция закрытия модального окна с большой фотографией.
   var clouseBigCancel = document.querySelector('.big-picture__cancel');
 
   clouseBigCancel.addEventListener('click', function () {
@@ -71,7 +71,7 @@
     window.utils.addClass(bigPicture, 'hidden');
   };
 
-  // Функция закрытия модального окна с большой фотографией при нажатии esс. preview.js
+  // Функция закрытия модального окна с большой фотографией при нажатии esс.
   var bigPictureEscPress = function (evt) {
     if (evt.key === 'Escape') {
       evt.preventDefault();

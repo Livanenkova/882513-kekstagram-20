@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var MAX_LINE_VALUE = 450;
+  var EFFECT_VALUE = 100;
+
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
@@ -52,48 +55,63 @@
       effectLevelLine.value = effect;
       effectLevelPin.style.left = (newX) + 'px';
       effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
+      onEffectLevelChange();
     }
   };
 
   // Обработчик движения слайдера
   var imgEffectsContainer = document.querySelector('.img-upload__effects');
+  var effectValue = document.querySelector('.effect-level__value');
   imgEffectsContainer.addEventListener('change', onFilterChange);
+  effectValue.addEventListener('change', onFilterChange);
 
   function onEffectLevelChange() {
-    switch (window.form.imgUploadPreview.className) {
+    switch (window.imgUploadPreview.className) {
       case 'effects__preview--chrome':
-        window.form.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';
+        window.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';
         break;
       case 'effects__preview--sepia':
-        window.form.imgUploadPreview.style.filter = 'sepia(' + (effectLevelValue.value / 100) + ')';
+        window.imgUploadPreview.style.filter = 'sepia(' + (effectLevelValue.value / 100) + ')';
         break;
       case 'effects__preview--marvin':
-        window.form.imgUploadPreview.style.filter = 'invert(' + effectLevelValue.value + '%)';
+        window.imgUploadPreview.style.filter = 'invert(' + effectLevelValue.value + '%)';
         break;
       case 'effects__preview--phobos':
-        window.form.imgUploadPreview.style.filter = 'blur(' + (effectLevelValue.value * 3 / 100) + 'px)';
+        window.imgUploadPreview.style.filter = 'blur(' + (effectLevelValue.value * 3 / 100) + 'px)';
         break;
       case 'effects__preview--heat':
-        window.form.imgUploadPreview.style.filter = 'brightness(' + (effectLevelValue.value * 3 / 100 + 1) + ')';
+        window.imgUploadPreview.style.filter = 'brightness(' + (effectLevelValue.value * 3 / 100 + 1) + ')';
         break;
       default:
-        window.form.imgUploadPreview.style.filter = null;
+        window.imgUploadPreview.style.filter = null;
     }
   }
 
-  // Функция наложения эффекта на изображение form.js
+  // Функция наложения эффекта на изображение
 
-  function onFilterChange(event) {
-    movePin(450, 100);
-    window.form.imgUploadPreview.className = '';
-    window.form.imgUploadPreview.style.filter = null;
-    window.utils.addClass(window.form.imgUploadPreview, 'effects__preview--' + event.target.value);
+  var changeFilter = function (filter) {
+    window.imgUploadPreview.className = '';
+    window.imgUploadPreview.style.filter = null;
+    window.utils.addClass(window.imgUploadPreview, 'effects__preview--' + filter);
     if (event.target.value === 'none') {
       window.utils.addClass(effectLevelSlider, 'hidden');
     } else {
       window.utils.removeClass(effectLevelSlider, 'hidden');
     }
+  };
+
+  function onFilterChange(event) {
+    movePin(MAX_LINE_VALUE, EFFECT_VALUE);
+    changeFilter(event.target.value);
   }
 
-  effectLevelLine.addEventListener('mousemove', onEffectLevelChange);
+  var resetPin = function () {
+    movePin(MAX_LINE_VALUE, EFFECT_VALUE);
+  };
+
+  window.slider = {
+    resetPin: resetPin,
+    changeFilter: changeFilter
+  };
+
 })();

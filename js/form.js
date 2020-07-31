@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var MIN_SCALE_VALUE = 25;
+  var MAX_SCALE_VALUE = 100;
+  var SCALE_STEP = 25;
 
   var uploadFile = document.querySelector('#upload-file');
   var uploadCancel = document.querySelector('#upload-cancel');
@@ -10,10 +13,9 @@
   var imgControlSmall = imgUploadControl.querySelector('.scale__control--smaller');
   var imgControlValue = document.querySelector('.scale__control--value');
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  var imgUploadForm = document.querySelector('.img-upload__form');
-  var MIN_SCALE_VALUE = 25;
-  var MAX_SCALE_VALUE = 100;
-  var SCALE_STEP = 25;
+  var imgUpload = document.querySelector('.img-upload__form');
+  var textHashtags = document.querySelector('.text__hashtags');
+  var textDescription = document.querySelector('.text__description');
 
   // Обработчик открытия окна загрузки фотографий form.js
   uploadFile.addEventListener('change', function () {
@@ -34,22 +36,32 @@
 
   // Функция закрытия окна загрузки фотографий при клике form.js
   var closePopup = function () {
-    imgUploadForm.reset();
+    resetPopup();
+    imgUpload.reset();
     window.utils.removeClass(window.main.bodyElement, 'modal-open');
     window.utils.addClass(imgUploadOverlay, 'hidden');
     document.removeEventListener('click', onPopupEscPress);
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  // Функция закрытия окна загрузки фотографий при клике form.js
+  var resetPopup = function () {
+    window.slider.resetPin();
+    window.slider.changeFilter('default');
+    changeImgScale(100);
+    document.querySelector('.text__hashtags').setCustomValidity('');
+    document.querySelector('.text__hashtags').style.border = 'none';
+    document.querySelector('.text__description').setCustomValidity('');
+  };
+
+  // Функция закрытия окна загрузки фотографий при клике
   var onPopupEscPress = function (evt) {
-    if (evt.key === 'Escape' && document.querySelector('.text__hashtags') !== document.activeElement && document.querySelector('.text__description') !== document.activeElement) {
+    if (evt.key === 'Escape' && textHashtags !== document.activeElement && textDescription !== document.activeElement) {
       evt.preventDefault();
       closePopup();
     }
   };
 
-  // Обработчик уменьшения фотографии в окне загрузки фотографии form.js
+  // Обработчик уменьшения фотографии в окне загрузки фотографии
 
   imgControlSmall.addEventListener('click', function () {
     var scaleValue = Number(imgControlValue.value.slice(0, -1));
@@ -62,7 +74,7 @@
     changeImgScale(scaleValue);
   });
 
-  // Обработчик увеличения фотографии в окне загрузки фотографии form.js
+  // Обработчик увеличения фотографии в окне загрузки фотографии
   imgControlBig.addEventListener('click', function () {
     var scaleValue = Number(imgControlValue.value.slice(0, -1));
     scaleValue += SCALE_STEP;
@@ -74,32 +86,29 @@
     changeImgScale(scaleValue);
   });
 
-  // Функция изменения масштаба фотографии в окне загрузки фотографии form.js
+  // Функция изменения масштаба фотографии в окне загрузки фотографии
 
   function changeImgScale(value) {
     imgControlValue.value = value + '%';
     imgUploadPreview.style.transform = 'scale(' + (value / 100) + ')';
   }
 
-  imgUploadForm.addEventListener('submit', function (event) {
+  imgUpload.addEventListener('submit', function (event) {
     event.preventDefault();
-    window.backend.upload('https://javascript.pages.academy/kekstagram', new FormData(imgUploadForm), uploadSuccess, uploadError);
+    window.backend.upload('https://javascript.pages.academy/kekstagram', new FormData(imgUpload), uploadSuccess, uploadError);
   });
 
   function uploadSuccess() {
-    imgUploadForm.reset();
+    imgUpload.reset();
     closePopup();
-    window.message.renderMessage('', 'success');
+    window.renderMessage('', 'success');
   }
 
   function uploadError(error) {
     closePopup();
-    window.message.renderMessage(error, 'error');
+    window.renderMessage(error, 'error');
   }
 
-  window.form = {
-    imgUploadPreview: imgUploadPreview,
-    imgUploadForm: imgUploadForm
-  };
+  window.imgUploadPreview = imgUploadPreview;
 
 })();

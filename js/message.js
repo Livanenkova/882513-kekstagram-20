@@ -1,26 +1,23 @@
 'use strict';
 (function () {
-
-  var main = document.querySelector('main');
+  var templateSuccess = document.querySelector('#success').content.querySelector('.success');
+  var templateError = document.querySelector('#error').content.querySelector('.error');
 
   var createSuccessMessage = function () {
-    var template = document.querySelector('#success').content.querySelector('.success');
-    var element = template.cloneNode(true);
-
+    var element = templateSuccess.cloneNode(true);
     document.addEventListener('click', clouseSuccessMessage);
     document.addEventListener('keydown', successMessageEscPress);
     return element;
   };
 
   var renderMessage = function (newMessage, type) {
-    var postMessage = document.querySelector('main');
     var messageElement;
     if (type === 'error') {
       messageElement = createErrorMessage(newMessage);
     } else {
       messageElement = createSuccessMessage(newMessage);
     }
-    postMessage.appendChild(messageElement);
+    window.main.bodyElement.appendChild(messageElement);
   };
 
   var successMessageEscPress = function (evt) {
@@ -36,12 +33,11 @@
     document.removeEventListener('click', clouseSuccessMessage);
     document.removeEventListener('keydown', successMessageEscPress);
 
-    main.removeChild(successMessage);
+    window.main.bodyElement.removeChild(successMessage);
   };
 
   var createErrorMessage = function () {
-    var template = document.querySelector('#error').content.querySelector('.error');
-    var element = template.cloneNode(true);
+    var element = templateError.cloneNode(true);
     document.addEventListener('click', clouseErrorMessage);
     document.addEventListener('keydown', errorMessageEscPress);
     return element;
@@ -51,7 +47,7 @@
     var errorMessage = document.querySelector('.error');
     document.removeEventListener('keydown', errorMessageEscPress);
     document.removeEventListener('click', clouseErrorMessage);
-    main.removeChild(errorMessage);
+    window.main.bodyElement.removeChild(errorMessage);
   };
 
   var errorMessageEscPress = function (evt) {
@@ -61,8 +57,6 @@
     }
   };
 
-  window.message = {
-    renderMessage: renderMessage
-  };
+  window.renderMessage = renderMessage;
 
 })();
