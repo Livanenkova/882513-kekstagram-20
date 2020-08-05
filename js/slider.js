@@ -10,11 +10,7 @@
   var effectLevelSlider = document.querySelector('.img-upload__effect-level');
 
   effectLevelLine.addEventListener('mousedown', function (evt) {
-
-    var offSet = effectLevelPin.offsetLeft;
-    var lineWidth = effectLevelLine.offsetWidth;
-    var effectValue = Math.round(offSet * 100 / lineWidth);
-    effectLevelValue.value = effectValue;
+    evt.preventDefault();
 
     var startCoords = {
       x: evt.clientX,
@@ -30,10 +26,10 @@
       startCoords = {
         x: moveEvt.clientX,
       };
-      var levelPin = effectLevelPin.offsetLeft;
+
       var linesWidth = effectLevelLine.offsetWidth;
       var newX = effectLevelPin.offsetLeft - shift.x;
-      var effect = Math.round(levelPin * 100 / linesWidth);
+      var effect = Math.round(newX * 100 / linesWidth);
 
       movePin(newX, effect);
     };
@@ -52,7 +48,7 @@
   var movePin = function (newX, effect) {
     var lineWidth = effectLevelLine.offsetWidth;
     if (newX >= 0 && newX <= lineWidth) {
-      effectLevelLine.value = effect;
+      effectLevelValue.value = effect;
       effectLevelPin.style.left = (newX) + 'px';
       effectLevelDepth.style.width = (newX * 100 / lineWidth) + '%';
       onEffectLevelChange();
@@ -66,6 +62,7 @@
   effectValue.addEventListener('change', onFilterChange);
 
   function onEffectLevelChange() {
+    window.imgUploadPreview.style.filter = null;
     switch (window.imgUploadPreview.className) {
       case 'effects__preview--chrome':
         window.imgUploadPreview.style.filter = 'grayscale(' + (effectLevelValue.value / 100) + ')';

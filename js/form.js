@@ -16,6 +16,27 @@
   var imgUpload = document.querySelector('.img-upload__form');
   var textHashtags = document.querySelector('.text__hashtags');
   var textDescription = document.querySelector('.text__description');
+  var effectLevelSlider = document.querySelector('.img-upload__effect-level');
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+  function pasteUploadedImage() {
+    var file = uploadFile .files[0];
+    var fileName = file.name.toLowerCase();
+
+    var isMatch = FILE_TYPES.some(function (item) {
+      return fileName.endsWith(item);
+    });
+
+    if (isMatch) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        imgUploadPreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  }
 
   // Обработчик открытия окна загрузки фотографий form.js
   uploadFile.addEventListener('change', function () {
@@ -29,9 +50,11 @@
 
   // Функция открытия окна загрузки фотографий form.js
   var openPopup = function () {
+    pasteUploadedImage();
     window.utils.addClass(window.main.bodyElement, 'modal-open');
     window.utils.removeClass(imgUploadOverlay, 'hidden');
     document.addEventListener('keydown', onPopupEscPress);
+    window.utils.addClass(effectLevelSlider, 'hidden');
   };
 
   // Функция закрытия окна загрузки фотографий при клике form.js
